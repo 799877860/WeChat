@@ -14,4 +14,4 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::any('test/hello','Test\Testcontroller@test');
+Route::any('test/hello','Test\TestController@test');
