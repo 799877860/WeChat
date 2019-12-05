@@ -14,4 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any('info',function(){
+	phpinfo();
+});
+
 Route::any('test/hello','Test\TestController@test');
