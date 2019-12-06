@@ -20,3 +20,4 @@ Route::any('info',function(){
 });
 
 Route::any('test/hello','Test\TestController@test');
+Route::any('test/adduser','User\LoginController@addUser');
