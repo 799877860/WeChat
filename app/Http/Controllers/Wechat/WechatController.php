@@ -9,20 +9,22 @@ class WechatController extends Controller
 {
     public function checkSignature()
 	{
+
+		$token = '981118';
 	    $signature = $_GET["signature"];
 	    $timestamp = $_GET["timestamp"];
 	    $nonce = $_GET["nonce"];
-		
-	    $token = TOKEN;
+		$echostr = $_GET['echostr'];
+
 	    $tmpArr = array($token, $timestamp, $nonce);
 	    sort($tmpArr, SORT_STRING);
 	    $tmpStr = implode( $tmpArr );
 	    $tmpStr = sha1( $tmpStr );
 	    
 	    if( $tmpStr == $signature ){
-	        return true;
+	        echo $echostr;
 	    }else{
-	        return false;
+	        die('Not OK!');
 	    }
 	}
 }
