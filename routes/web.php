@@ -26,3 +26,4 @@ Route::any('test/adduser','User\LoginController@addUser');
 
 // 微信开发
 Route::get('wechat','Wechat\WechatController@checkSignature');
+Route::post('wechat','Wechat\WechatController@receiv');         //接收微信推送事件
