@@ -45,8 +45,13 @@ class WechatController extends Controller
     {
         $log_file = "wx.log";
         //将接受的数据记录到日志文件中
-        $xml = file_get_contents('php://input');
-        $data = date('Y-m-d H:i:s') . $xml;
+        $xml_str = file_get_contents('php://input');
+        $data = date('Y-m-d H:i:s') . $xml_str;
         file_put_contents($log_file,$data,FILE_APPEND);     //追加写入
+
+        //处理xml数据
+        $xml_arr = simplexml_load_string($xml_str);
+
+        //入库   其他逻辑
     }
 }
