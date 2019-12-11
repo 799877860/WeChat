@@ -102,7 +102,7 @@ class WechatController extends Controller
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
                   <CreateTime>'.$time.'</CreateTime>
                   <MsgType><![CDATA[text]]></MsgType>
-                  <Content><![CDATA[你好]]></Content>
+                  <Content><![CDATA['.$content.']]></Content>
                 </xml>';
             echo $response_text;        //回复用户消息
 
