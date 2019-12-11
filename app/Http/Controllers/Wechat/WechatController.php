@@ -94,9 +94,10 @@ class WechatController extends Controller
         $toUser = $xml_obj->FromUserName;       //接收回复消息用户的openID
         $fromUser = $xml_obj->ToUserName;       //开发者公众号的ID
         $time = time();
-        $content = date('Y-m-d H:i:s') . $xml_obj->Content;
 
         if ($msg_type=='text'){
+            $content = date('Y-m-d H:i:s') . $xml_obj->Content;
+
             $response_text = '<xml>
                   <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
