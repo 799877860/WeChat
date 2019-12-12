@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Wechat;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\WxUserModel;
 
 class WechatController extends Controller
 {
@@ -72,7 +73,7 @@ class WechatController extends Controller
         $log_file = "wx.log";
         // 将接受的数据记录到日志文件中
         $xml_str = file_get_contents('php://input');
-        $data = date('Y-m-d H:i:s') . $xml_str;
+        $data = date('Y-m-d H:i:s') . " >>>>>> \n" . $xml_str . "\n\n";
         file_put_contents($log_file,$data,FILE_APPEND);     //追加写入
 
         // 处理xml数据
@@ -80,12 +81,52 @@ class WechatController extends Controller
 
         $event = $xml_obj->Event;       //获取事件类型
         if ($event=='subscribe'){
-            // 获取用户的openID
-            $openid = $xml_obj->FromUserName;
-            // 获取用户信息
-            $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
-            $user_info = file_get_contents($url);       //
-            file_put_contents('wx_user.log',$user_info,FILE_APPEND);
+            $openid = $xml_obj->FromUserName;       // 获取用户的openID
+            //判断用户是不是已存在
+            $u = WxUserModel::where(['openid' => $openid])->first();
+            if ($u){
+                //TODO  How old are you ?
+                $msg = 'How old are you ?';
+                $xml = '<xml>
+                    <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                    <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                    <CreateTime>'.time().'</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA['.$msg.']]></Content>
+                </xml>';
+                echo $xml;
+            }else{
+//                echo __LINE__;die;
+
+                // 获取用户信息
+                $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+                $user_info = file_get_contents($url);       //
+//                echo "<pre>";print_r($u);echo "</pre>";die;
+                $u = json_decode($user_info,true);
+                //入库用户信息
+                $user_data = [
+                    'openid'       => $openid,
+                    'nickname'    => $u['nickname'],
+                    'sex'           => $u['sex'],
+                    'headimgurl'  => $u['headimgurl'],
+                    'subscribe_time'=> $u['subscribe_time']
+                ];
+
+                //openID入库
+                $uid = WxUserModel::insertGetId($user_data);
+
+                //回复用户关注
+                $msg = 'How are you ?';
+                $xml = '<xml>
+                    <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                    <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                    <CreateTime>'.time().'</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA['.$msg.']]></Content>
+                </xml>';
+                    echo $xml;
+            }
+
         }
 
         //判断消息类型
