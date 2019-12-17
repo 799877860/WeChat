@@ -35,6 +35,8 @@ Route::get('wechat/ext',function (){
 
         echo $file_name . "的文件扩展名为：" . $info['extension'];die;
         echo "<pre>";print_r($info);echo "</pre>";
-});         //获取临时素材
-
+});         //获取文件拓展名测试
 Route::get('wechat/test','Wechat\WechatController@test');         //获取临时素材
+Route::get('wechat/flush','Wechat\WechatController@flushAccessToken');         //刷新access_token
+Route::get('wechat/menu','Wechat\WechatController@createMenu');         //创建菜单
+

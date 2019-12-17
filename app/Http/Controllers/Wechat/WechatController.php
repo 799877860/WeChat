@@ -98,8 +98,9 @@ class WechatController extends Controller
         $xml_obj = simplexml_load_string($xml_str);
 
         $event = $xml_obj->Event;       //获取事件类型
+        $openid = $xml_obj->FromUserName;       // 获取用户的openID
+
         if ($event=='subscribe'){
-            $openid = $xml_obj->FromUserName;       // 获取用户的openID
             //判断用户是不是已存在
             $u = WxUserModel::where(['openid' => $openid])->first();
             if ($u){
@@ -144,7 +145,18 @@ class WechatController extends Controller
                 </xml>';
                     echo $xml;
             }
-
+        }elseif($event=='CLICK'){       // 菜单点击事件
+            // 如果是获取天气
+            if ($xml_obj->EventKey=='weather'){
+                $response_xml = '<xml>
+                    <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                    <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                    <CreateTime>'.time().'</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA['.date('Y-m-d H:i:s') . ' sunny' . ']]></Content>
+                </xml>';
+                echo $response_xml;
+            }
         }
 
         //判断消息类型
@@ -183,6 +195,16 @@ class WechatController extends Controller
     }
 
     /**
+     * 刷新 access_token
+     */
+    public function flushAccessToken()
+    {
+        $key = 'wx_access_token';
+        Redis::del($key);
+        echo $this->getAccessToken();
+    }
+
+    /**
      * 获取素材(TEST)
      */
     public function testMedia()
@@ -205,10 +227,10 @@ class WechatController extends Controller
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->access_token.'&media_id='.$media_id;
 
         //获取素材内容
-//        $data = file_get_contents($url);
-//        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-//        $file_info = finfo_file($finfo,$data);
-//        var_dump($file_info);die;
+            //$data = file_get_contents($url);
+            //$finfo = finfo_open(FILEINFO_MIME_TYPE);
+            //$file_info = finfo_file($finfo,$data);
+            //var_dump($file_info);die;
 
         $client = new Client();
         $response = $client->request('GET',$url);
@@ -234,5 +256,38 @@ class WechatController extends Controller
 
         file_put_contents($save_path,$file_content);
         echo "save success!" . $save_path;die;
+    }
+
+    /**
+     * 创建自定义菜单
+     */
+    public function createMenu()
+    {
+        // 创建自定义菜单的接口地址
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token;
+        $menu = [
+            'button'    => [
+                [
+                    'type' =>'click',
+                    'name' =>'获取天气',
+                    'key'  =>'weather'
+                ],
+                [
+                    'type' =>'click',
+                    'name' =>'1905wx2',
+                    'key'  =>'1905wx_key2'
+                ],
+                [
+                    'type' =>'click',
+                    'name' =>'1905wx3',
+                    'key'  =>'1905wx_key3'
+                ],
+            ]
+        ];
+        $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
+        $client = new Client();
+        $response = $client->request('POST',$url,['body'  =>$menu_json]);
+
+        echo $response->getBody();      // 接收微信接口的响应数据
     }
 }
