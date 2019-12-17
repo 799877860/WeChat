@@ -28,3 +28,13 @@ Route::any('test/xml','Test\TestController@xmlTest');
 // 微信开发
 Route::get('wechat','Wechat\WechatController@checkSignature');
 Route::post('wechat','Wechat\WechatController@receiv');         //接收微信推送事件
+Route::get('wechat/media','Wechat\WechatController@testMedia');         //获取临时素材
+Route::get('wechat/ext',function (){
+        $file_name = 'av.mp3';
+        $info = pathinfo($file_name);
+
+        echo $file_name . "的文件扩展名为：" . $info['extension'];die;
+        echo "<pre>";print_r($info);echo "</pre>";
+});         //获取临时素材
+
+Route::get('wechat/test','Wechat\WechatController@test');         //获取临时素材
