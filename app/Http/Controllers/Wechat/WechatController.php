@@ -162,7 +162,7 @@ class WechatController extends Controller
                 $wind_dir = $weather_info_arr['HeWeather6'][0]['now']['wind_dir'];
 
                 $msg = $cnty . ' ' . $location . ' ' .  $cond_txt . ' 温度:' . $tmp . '℃' . ' 风向:' . $wind_dir;
-                echo $msg;die;
+                // echo $msg;die;
                 $response_xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
