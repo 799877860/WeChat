@@ -39,4 +39,5 @@ Route::get('wechat/ext',function (){
 Route::get('wechat/test','Wechat\WechatController@test');         //获取临时素材
 Route::get('wechat/flush','Wechat\WechatController@flushAccessToken');         //刷新access_token
 Route::get('wechat/menu','Wechat\WechatController@createMenu');         //创建菜单
+Route::get('vote','VoteController@index');         //微信投票
 

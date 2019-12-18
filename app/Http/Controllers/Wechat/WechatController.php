@@ -183,7 +183,7 @@ class WechatController extends Controller
 
         $media_id = $xml_obj->MediaId;
 
-        if ($msg_type=='text'){                 // 图片消息
+        if ($msg_type=='text'){                 // 文本消息
 
             $content = date('Y-m-d H:i:s') . $xml_obj->Content;
 
@@ -278,6 +278,10 @@ class WechatController extends Controller
      */
     public function createMenu()
     {
+
+        $url = 'http://wx.xx20.top/vote';
+        $redirect_uri = urlencode($url);        // 授权后跳转页面
+
         // 创建自定义菜单的接口地址
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token;
         $menu = [
@@ -287,13 +291,18 @@ class WechatController extends Controller
                     'name' =>'今日天气',
                     'key'  =>'weather'
                 ],
+                [
+                    'type' =>'view',
+                    'name' =>'首页',
+                    'url'  =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxea60b03810c5ab51&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=WYS1905#wechat_redirect'
+                ],
 
             ]
         ];
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
         $client = new Client();
         $response = $client->request('POST',$url,['body'  =>$menu_json]);
-
+        echo "<pre>";print_r($menu);echo "</pre>";
         echo $response->getBody();      // 接收微信接口的响应数据
     }
 }
