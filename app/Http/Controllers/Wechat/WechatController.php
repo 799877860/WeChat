@@ -287,7 +287,7 @@ class WechatController extends Controller
                     'name' =>'今日天气',
                     'key'  =>'weather'
                 ],
-                
+
             ]
         ];
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
