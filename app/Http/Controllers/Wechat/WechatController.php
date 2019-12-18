@@ -153,14 +153,16 @@ class WechatController extends Controller
                 $weather_api = 'https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=7e8a753e3c60449287b7cf0c3d601c38';
                 $weather_info = file_get_contents($weather_api);
                 $weather_info_arr = json_decode($weather_info,true);
-                // $wind_dirprint_r($weather_info_arr);die;
+                // print_r($weather_info_arr);die;
 
+                $cnty = $weather_info_arr['HeWeather6'][0]['basic']['cnty'];
+                $location = $weather_info_arr['HeWeather6'][0]['basic']['location'];
                 $cond_txt = $weather_info_arr['HeWeather6'][0]['now']['cond_txt'];
                 $tmp = $weather_info_arr['HeWeather6'][0]['now']['tmp'];
                 $wind_dir = $weather_info_arr['HeWeather6'][0]['now']['wind_dir'];
 
-                $msg = $cond_txt . ' 温度:' . $tmp . '℃' . ' 风向:' . $wind_dir;
-                // echo $msg;die;
+                $msg = $cnty . ' ' . $location . ' ' .  $cond_txt . ' 温度:' . $tmp . '℃' . ' 风向:' . $wind_dir;
+                echo $msg;die;
                 $response_xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
