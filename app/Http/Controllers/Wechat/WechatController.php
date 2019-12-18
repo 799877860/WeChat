@@ -293,7 +293,7 @@ class WechatController extends Controller
                 ],
                 [
                     'type' =>'view',
-                    'name' =>'首页',
+                    'name' =>'投票',
                     'url'  =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxea60b03810c5ab51&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=WYS1905#wechat_redirect'
                 ],
 
