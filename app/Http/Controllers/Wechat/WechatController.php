@@ -284,19 +284,10 @@ class WechatController extends Controller
             'button'    => [
                 [
                     'type' =>'click',
-                    'name' =>'获取天气',
+                    'name' =>'今日天气',
                     'key'  =>'weather'
                 ],
-                [
-                    'type' =>'click',
-                    'name' =>'1905wx2',
-                    'key'  =>'1905wx_key2'
-                ],
-                [
-                    'type' =>'click',
-                    'name' =>'1905wx3',
-                    'key'  =>'1905wx_key3'
-                ],
+                
             ]
         ];
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
