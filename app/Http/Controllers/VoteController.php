@@ -45,13 +45,13 @@ class VoteController extends Controller
             Redis::Zadd($key,time(),$openid);
         }
         $total = Redis::zCard($key);        // 获取总数
-        echo '投票总人数： '.$total;echo "</br>";
+        echo '投票总人数： '.$total;echo "<hr>";
         $mumbers = Redis::zRange($key,0,-1,true);       // 获取所有投票人的openID
         foreach ($mumbers as $k=>$v){
             $u_k = 'h:u:'.$k;
             $u = Redis::hgetAll($u_k);
             // $u = Redis::hMget($u_k,['openid','nickname','sex','headimgurl']);
-            echo ' <img src="'.$u['headimgurl'].'">';echo "</br>";
+            echo ' <img src="'.$u['headimgurl'].'">';
         }
     }
 
