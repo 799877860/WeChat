@@ -27,10 +27,12 @@ class VoteController extends Controller
         }else{
             Redis::Zadd($key,time(),$openid);
         }
+        $total = Redis::zCard($key);        // 获取总数
+        echo '投票总人数： '.$total;echo "</br>";
         $mumbers = Redis::zRange($key,0,-1,true);       // 获取所有投票人的openID
         echo "<pre>";print_r($mumbers);echo "</pre>";
         foreach ($mumbers as $k=>$v){
-            echo "用户：" . $k . '投票时间：' . date('Y-m-d H:i:s',$v);echo "</br>";
+            echo "用户： ".$k . ' 投票时间：'. date('Y-m-d H:i:s',$v);echo "</br>";
         }
     }
 
