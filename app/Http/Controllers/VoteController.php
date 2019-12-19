@@ -66,11 +66,6 @@ class VoteController extends Controller
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.env('WX_APPID').'&secret='.env('WX_APPSECRET').'&code='.$code.'&grant_type=authorization_code';
         $json_data = file_get_contents($url);
         $data = json_decode($json_data,true);
-//        echo "<pre>";print_r($data);echo "</pre>";
-        if (isset($data['errcode'])){
-            // TODO 错误处理
-            die("出错了   40001");     // 40001   表示获取access_token失败
-        }
         return $data;       // 返回access_token信息
     }
 
