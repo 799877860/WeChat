@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+Route::any('/','Index\IndexController@index');      // 商城首页
+
 
 Route::any('info',function(){
 	phpinfo();
