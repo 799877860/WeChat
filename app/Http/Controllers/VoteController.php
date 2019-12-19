@@ -40,7 +40,7 @@ class VoteController extends Controller
 
         //   TODO    判断是否已经投过    使用redis集合 或 有序集合
         if (Redis::zrank($key,$user_info['openid'])){
-            echo "已经投过票了";
+            echo "已经投过票了";echo "</br>";
         }else{
             Redis::Zadd($key,time(),$openid);
         }
@@ -49,11 +49,9 @@ class VoteController extends Controller
         $mumbers = Redis::zRange($key,0,-1,true);       // 获取所有投票人的openID
         echo "<pre>";print_r($mumbers);echo "</pre>";echo "<hr>";
         foreach ($mumbers as $k=>$v){
-            echo "用户： ".$k . ' 投票时间：'. date('Y-m-d H:i:s',$v);echo "</br>";
             $u_k = 'h:u:'.$k;
-            // $u = Redis::hgetAll($u_k);
-            $u = Redis::hMget($u_k,['openid','nickname','sex','headimgurl']);
-            echo "<pre>";print_r($u);echo "</pre>";
+            $u = Redis::hgetAll($u_k);
+            // $u = Redis::hMget($u_k,['openid','nickname','sex','headimgurl']);
             echo '<img src="'.$u['headimgurl'].'">';echo "</br>";
         }
     }
