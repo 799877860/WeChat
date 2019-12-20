@@ -202,10 +202,46 @@ class WechatController extends Controller
             // TODO 下载图片
             $this->getMedia($media_id,$msg_type);
             // TODO 回复图片
+            $response_img = '<xml>
+              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+              <CreateTime>'.time().'</CreateTime>
+              <MsgType><![CDATA[image]]></MsgType>
+              <Image>
+                <MediaId><![CDATA['.$media_id.']]></MediaId>
+              </Image>
+            </xml>';
+            echo $response_img;
         }elseif ($msg_type=='voice'){        // 语音消息
             // TODO 下载语音
             $this->getMedia($media_id,$msg_type);
             // TODO 回复语音
+            $response_voice = '<xml>
+              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+              <CreateTime>'.time().'</CreateTime>
+              <MsgType><![CDATA[voice]]></MsgType>
+              <Voice>
+                <MediaId><![CDATA['.$media_id.']]></MediaId>
+              </Voice>
+            </xml>';
+            echo $response_voice;
+        }elseif($msg_type=='video'){
+            // TODO 下载小视频
+            $this->getMedia2($media_id,$msg_type);
+            // TODO 回复小视频
+            $response_video = '<xml>
+              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+              <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+              <CreateTime>'.time().'</CreateTime>
+              <MsgType><![CDATA[video]]></MsgType>
+              <Video>
+                <MediaId><![CDATA['.$media_id.']]></MediaId>
+                <Title><![CDATA[测试]]></Title>
+                <Description><![CDATA[不可描述]]></Description>
+              </Video>
+            </xml>';
+            echo $response_video;
         }
     }
 
@@ -237,6 +273,9 @@ class WechatController extends Controller
         echo "文件名： " . $file_name;
     }
 
+    /**
+     * 获取素材
+     */
     public function getMedia($media_id,$media_type)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->access_token.'&media_id='.$media_id;
@@ -270,7 +309,7 @@ class WechatController extends Controller
         }
 
         file_put_contents($save_path,$file_content);
-        echo "save success!" . $save_path;die;
+//        echo "save success!" . $save_path;die;
     }
 
     /**
