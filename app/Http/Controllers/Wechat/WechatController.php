@@ -196,7 +196,6 @@ class WechatController extends Controller
                 </xml>';
             echo $response_text;        //回复用户消息
 
-
             // TODO 消息入库
         }elseif ($msg_type=='image'){       // 图片消息
             // TODO 下载图片
