@@ -28,7 +28,7 @@ class GoodsController extends AdminController
 
         $grid->column('id', __('商品序号'));
         $grid->column('goods_name', __('商品名称'));
-        $grid->column('img', __('商品图片'));
+        $grid->column('img', __('商品图片'))->image();
         $grid->column('prcie', __('商品价格'));
         $grid->column('created_at', __('添加时间'));
         $grid->column('updated_at', __('更新时间'));
