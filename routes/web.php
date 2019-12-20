@@ -15,19 +15,24 @@
     return view('welcome');
 });*/
 
-Route::any('/','Index\IndexController@index');      // 商城首页
-
-
 Route::any('info',function(){
-	phpinfo();
+    phpinfo();
 });
 
+// 测试
 Route::any('test/hello','Test\TestController@test');
 Route::any('test/redis1','Test\TestController@redis1');
 Route::any('test/guzzle1','Test\TestController@guzzle1');
 Route::any('test/adduser','User\LoginController@addUser');
 Route::any('test/xml','Test\TestController@xmlTest');
 Route::any('dev/redis/del','VoteController@delKey');
+
+
+// 微商城
+Route::any('/','Index\IndexController@index');      // 商城首页
+Route::any('goods/detail','Goods\IndexController@detail');      // 商城首页
+
+
 
 // 微信开发
 Route::get('wechat','Wechat\WechatController@checkSignature');
