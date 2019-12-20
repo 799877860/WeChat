@@ -23,7 +23,6 @@ Route::any('info',function(){
 Route::any('test/hello','Test\TestController@test');
 Route::any('test/redis1','Test\TestController@redis1');
 Route::any('test/guzzle1','Test\TestController@guzzle1');
-Route::any('test/adduser','User\LoginController@addUser');
 Route::any('test/xml','Test\TestController@xmlTest');
 Route::any('dev/redis/del','VoteController@delKey');
 
