@@ -185,7 +185,7 @@ class WechatController extends Controller
 
         if ($msg_type=='text'){                 // 文本消息
 
-            $content = date('Y-m-d H:i:s') . $xml_obj->Content;
+            $content = date('Y-m-d H:i:s') . $xml_obj->Content . ' ';
 
             $response_text = '<xml>
                   <ToUserName><![CDATA['.$toUser.']]></ToUserName>
@@ -195,17 +195,51 @@ class WechatController extends Controller
                   <Content><![CDATA['.$content.']]></Content>
                 </xml>';
             echo $response_text;        //回复用户消息
-
-
             // TODO 消息入库
         }elseif ($msg_type=='image'){       // 图片消息
             // TODO 下载图片
             $this->getMedia($media_id,$msg_type);
             // TODO 回复图片
+            $response_img = '<xml>
+                  <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+                  <CreateTime>'.time().'</CreateTime>
+                  <MsgType><![CDATA[image]]></MsgType>
+                  <Image>
+                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                  </Image>
+                </xml>';
+            echo $response_img;
         }elseif ($msg_type=='voice'){        // 语音消息
             // TODO 下载语音
             $this->getMedia($media_id,$msg_type);
             // TODO 回复语音
+            $response_voice = '<xml>
+                  <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+                  <CreateTime>'.time().'</CreateTime>
+                  <MsgType><![CDATA[voice]]></MsgType>
+                  <Voice>
+                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                  </Voice>
+                </xml>';
+            echo $response_voice;
+        }elseif($msg_type=='video'){
+            // TODO 下载小视频
+            $this->getMedia($media_id,$msg_type);
+            // TODO 回复小视频
+            $response = '<xml>
+              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+              <CreateTime>'.time().'</CreateTime>
+              <MsgType><![CDATA[video]]></MsgType>
+              <Video>
+                <MediaId><![CDATA['.$media_id.']]></MediaId>
+                <Title><![CDATA[测试]]></Title>
+                <Description><![CDATA[不可描述]]></Description>
+              </Video>
+            </xml>';
+            echo $response;
         }
     }
 
