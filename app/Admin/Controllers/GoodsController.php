@@ -68,6 +68,7 @@ class GoodsController extends AdminController
         $form->text('goods_name', __('Goods name'));
         $form->image('img', __('Img'));
         $form->number('prcie', __('Prcie'));
+        $form->ckeditor('desc');
 
         return $form;
     }
