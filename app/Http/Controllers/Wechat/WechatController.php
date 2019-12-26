@@ -171,6 +171,16 @@ class WechatController extends Controller
                     <Content><![CDATA['.date('Y-m-d H:i:s ') . $msg . ']]></Content>
                 </xml>';
                 echo $response_xml;
+            }elseif($xml_obj->EventKey=='sign'){
+
+                $response_xml = '<xml>
+                    <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                    <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                    <CreateTime>'.time().'</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[签到成功]]></Content>
+                </xml>';
+                echo $response_xml;
             }
         }
 
