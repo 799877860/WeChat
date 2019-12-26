@@ -118,9 +118,10 @@ class WechatController extends Controller
             }else{                // 首次关注
                 // 获取用户信息
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
-                $user_info = file_get_contents($url);       //
-//                echo "<pre>";print_r($u);echo "</pre>";die;
+                $user_info = file_get_contents($url);
                 $u = json_decode($user_info,true);
+//                echo "<pre>";print_r($u);echo "</pre>";
+
                 //入库用户信息
                 $user_data = [
                     'openid'       => $openid,
@@ -132,9 +133,9 @@ class WechatController extends Controller
 
                 //openID入库
                 $uid = WxUserModel::insertGetId($user_data);
-
+                $u = WxUserModel::where(['openid' => $openid])->first();
                 //回复用户关注
-                $msg = '欢迎'.$user_data['nickname'].'同学，感谢您的关注。';
+                $msg = '欢迎'.$u['nickname'].'同学，感谢您的关注。';
                 $xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
