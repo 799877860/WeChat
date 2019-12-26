@@ -103,9 +103,12 @@ class WechatController extends Controller
         if ($event=='subscribe'){
             //判断用户是不是已存在
             $u = WxUserModel::where(['openid' => $openid])->first();
+
             if ($u){
-                //TODO  How old are you ?
-                $msg = '怎么又是你 ?';
+                $xx = WxUserModel::all(['nickname']);
+                echo $xx;die;
+                //TODO  再次关注
+                $msg = '欢迎'.$xx.'同学回来';
                 $xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
@@ -114,9 +117,7 @@ class WechatController extends Controller
                     <Content><![CDATA['.$msg.']]></Content>
                 </xml>';
                 echo $xml;
-            }else{
-//                echo __LINE__;die;
-
+            }else{                // 首次关注
                 // 获取用户信息
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
                 $user_info = file_get_contents($url);       //
@@ -135,7 +136,7 @@ class WechatController extends Controller
                 $uid = WxUserModel::insertGetId($user_data);
 
                 //回复用户关注
-                $msg = '怎么是你 ?';
+                $msg = '欢迎'.$user_data[$u['nickname']].'同学，感谢您的关注。';
                 $xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
@@ -185,7 +186,7 @@ class WechatController extends Controller
 
         if ($msg_type=='text'){                 // 文本消息
 
-            $content = date('Y-m-d H:i:s') . $xml_obj->Content;
+            $content = date('Y-m-d H:i:s') . $xml_obj->Content . ' ';
 
             $response_text = '<xml>
                   <ToUserName><![CDATA['.$toUser.']]></ToUserName>
@@ -195,13 +196,17 @@ class WechatController extends Controller
                   <Content><![CDATA['.$content.']]></Content>
                 </xml>';
             echo $response_text;        //回复用户消息
+<<<<<<< HEAD
 
+=======
+>>>>>>> store
             // TODO 消息入库
         }elseif ($msg_type=='image'){       // 图片消息
             // TODO 下载图片
             $this->getMedia($media_id,$msg_type);
             // TODO 回复图片
             $response_img = '<xml>
+<<<<<<< HEAD
               <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
               <CreateTime>'.time().'</CreateTime>
@@ -210,12 +215,23 @@ class WechatController extends Controller
                 <MediaId><![CDATA['.$media_id.']]></MediaId>
               </Image>
             </xml>';
+=======
+                  <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+                  <CreateTime>'.time().'</CreateTime>
+                  <MsgType><![CDATA[image]]></MsgType>
+                  <Image>
+                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                  </Image>
+                </xml>';
+>>>>>>> store
             echo $response_img;
         }elseif ($msg_type=='voice'){        // 语音消息
             // TODO 下载语音
             $this->getMedia($media_id,$msg_type);
             // TODO 回复语音
             $response_voice = '<xml>
+<<<<<<< HEAD
               <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
               <CreateTime>'.time().'</CreateTime>
@@ -232,6 +248,24 @@ class WechatController extends Controller
             $response_video = '<xml>
               <ToUserName><![CDATA['.$toUser.']]></ToUserName>
               <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+=======
+                  <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+                  <CreateTime>'.time().'</CreateTime>
+                  <MsgType><![CDATA[voice]]></MsgType>
+                  <Voice>
+                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                  </Voice>
+                </xml>';
+            echo $response_voice;
+        }elseif($msg_type=='video'){
+            // TODO 下载小视频
+            $this->getMedia($media_id,$msg_type);
+            // TODO 回复小视频
+            $response = '<xml>
+              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
+                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
+>>>>>>> store
               <CreateTime>'.time().'</CreateTime>
               <MsgType><![CDATA[video]]></MsgType>
               <Video>
@@ -240,7 +274,11 @@ class WechatController extends Controller
                 <Description><![CDATA[不可描述]]></Description>
               </Video>
             </xml>';
+<<<<<<< HEAD
             echo $response_video;
+=======
+            echo $response;
+>>>>>>> store
         }
     }
 
@@ -326,21 +364,32 @@ class WechatController extends Controller
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token;
         $menu = [
             'button'    => [
-                [
+                /*[
                     'type' =>'click',
                     'name' =>'今日天气',
                     'key'  =>'weather'
+                ],*/
+                /*[
+                    'type' =>'view',
+                    'name' =>'商城',
+                    'url'  =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxea60b03810c5ab51&redirect_uri='.$redirect_uri2.'&response_type=code&scope=snsapi_userinfo&state=WYS1905#wechat_redirect'
+                ],*/
+                [
+                    'type' =>'click',
+                    'name' =>'签到',
+                    'key'  =>'sign'
+                ],
+                [
+                    'type' =>'click',
+                    'name' =>'积分查询',
+                    'key'  =>'integral'
                 ],
                 [
                     'type' =>'view',
                     'name' =>'投票',
                     'url'  =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxea60b03810c5ab51&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=WYS1905#wechat_redirect'
                 ],
-                [
-                    'type' =>'view',
-                    'name' =>'商城',
-                    'url'  =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxea60b03810c5ab51&redirect_uri='.$redirect_uri2.'&response_type=code&scope=snsapi_userinfo&state=WYS1905#wechat_redirect'
-                ],
+
             ]
         ];
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
