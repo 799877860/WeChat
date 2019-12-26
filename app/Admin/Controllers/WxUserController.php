@@ -7,7 +7,6 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use function foo\func;
 
 class WxUserController extends AdminController
 {
@@ -16,7 +15,7 @@ class WxUserController extends AdminController
      *
      * @var string
      */
-    protected $title = '微信用户管理';
+    protected $title = 'App\Model\WxUserModel';
 
     /**
      * Make a grid builder.
@@ -45,8 +44,9 @@ class WxUserController extends AdminController
             }
         });;
         $grid->column('nickname', __('昵称'));
-//        $grid->column('created_at', __('Created at'));
-//        $grid->column('updated_at', __('Updated at'));
+        // $grid->column('created_at', __('Created at'));
+        // $grid->column('updated_at', __('Updated at'));
+        $grid->column('integral', __('积分'));
 
         return $grid;
     }
@@ -69,6 +69,7 @@ class WxUserController extends AdminController
         $show->field('nickname', __('Nickname'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
+        $show->field('integral', __('integral'));
 
         return $show;
     }
@@ -88,6 +89,7 @@ class WxUserController extends AdminController
         $form->text('headimgurl', __('Headimgurl'));
         $form->switch('sex', __('Sex'));
         $form->text('nickname', __('Nickname'));
+        $form->text('integral', __('integral'));
 
         return $form;
     }
