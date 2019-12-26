@@ -105,9 +105,8 @@ class WechatController extends Controller
             $u = WxUserModel::where(['openid' => $openid])->first();
 
             if ($u){
-                $xx = WxUserModel::all(['nickname']);
                 //TODO  再次关注
-                $msg = '欢迎'.$xx.'同学回来';
+                $msg = '欢迎'.$u['nickname'].'同学回来';
                 $xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
@@ -135,7 +134,7 @@ class WechatController extends Controller
                 $uid = WxUserModel::insertGetId($user_data);
 
                 //回复用户关注
-                $msg = '欢迎'.$user_data[$u['nickname']].'同学，感谢您的关注。';
+                $msg = '欢迎'.$user_data['nickname'].'同学，感谢您的关注。';
                 $xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
