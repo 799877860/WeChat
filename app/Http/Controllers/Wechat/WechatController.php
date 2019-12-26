@@ -106,7 +106,6 @@ class WechatController extends Controller
 
             if ($u){
                 $xx = WxUserModel::all(['nickname']);
-                echo $xx;die;
                 //TODO  再次关注
                 $msg = '欢迎'.$xx.'同学回来';
                 $xml = '<xml>
