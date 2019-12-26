@@ -172,15 +172,27 @@ class WechatController extends Controller
                 </xml>';
                 echo $response_xml;
             }elseif($xml_obj->EventKey=='sign'){
-
-                $response_xml = '<xml>
+                $today = '2019-12-26';
+                if ($today=='2019-12-26'){
+                    $response_xml = '<xml>
+                    <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                    <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                    <CreateTime>'.time().'</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[今日已签到]]></Content>
+                </xml>';
+                    echo $response_xml;
+                }else{
+                    $response_xml = '<xml>
                     <ToUserName><![CDATA['.$openid.']]></ToUserName>
                     <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
                     <CreateTime>'.time().'</CreateTime>
                     <MsgType><![CDATA[text]]></MsgType>
                     <Content><![CDATA[签到成功]]></Content>
                 </xml>';
-                echo $response_xml;
+                    echo $response_xml;
+                }
+
             }
         }
 
