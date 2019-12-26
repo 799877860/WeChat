@@ -196,26 +196,12 @@ class WechatController extends Controller
                   <Content><![CDATA['.$content.']]></Content>
                 </xml>';
             echo $response_text;        //回复用户消息
-<<<<<<< HEAD
-
-=======
->>>>>>> store
             // TODO 消息入库
         }elseif ($msg_type=='image'){       // 图片消息
             // TODO 下载图片
             $this->getMedia($media_id,$msg_type);
             // TODO 回复图片
             $response_img = '<xml>
-<<<<<<< HEAD
-              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
-                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
-              <CreateTime>'.time().'</CreateTime>
-              <MsgType><![CDATA[image]]></MsgType>
-              <Image>
-                <MediaId><![CDATA['.$media_id.']]></MediaId>
-              </Image>
-            </xml>';
-=======
                   <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
                   <CreateTime>'.time().'</CreateTime>
@@ -224,31 +210,12 @@ class WechatController extends Controller
                     <MediaId><![CDATA['.$media_id.']]></MediaId>
                   </Image>
                 </xml>';
->>>>>>> store
             echo $response_img;
         }elseif ($msg_type=='voice'){        // 语音消息
             // TODO 下载语音
             $this->getMedia($media_id,$msg_type);
             // TODO 回复语音
             $response_voice = '<xml>
-<<<<<<< HEAD
-              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
-                  <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
-              <CreateTime>'.time().'</CreateTime>
-              <MsgType><![CDATA[voice]]></MsgType>
-              <Voice>
-                <MediaId><![CDATA['.$media_id.']]></MediaId>
-              </Voice>
-            </xml>';
-            echo $response_voice;
-        }elseif($msg_type=='video'){
-            // TODO 下载小视频
-            $this->getMedia2($media_id,$msg_type);
-            // TODO 回复小视频
-            $response_video = '<xml>
-              <ToUserName><![CDATA['.$toUser.']]></ToUserName>
-              <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
-=======
                   <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
                   <CreateTime>'.time().'</CreateTime>
@@ -265,7 +232,6 @@ class WechatController extends Controller
             $response = '<xml>
               <ToUserName><![CDATA['.$toUser.']]></ToUserName>
                   <FromUserName><![CDATA['.$fromUser.']]></FromUserName>
->>>>>>> store
               <CreateTime>'.time().'</CreateTime>
               <MsgType><![CDATA[video]]></MsgType>
               <Video>
@@ -274,11 +240,7 @@ class WechatController extends Controller
                 <Description><![CDATA[不可描述]]></Description>
               </Video>
             </xml>';
-<<<<<<< HEAD
-            echo $response_video;
-=======
             echo $response;
->>>>>>> store
         }
     }
 

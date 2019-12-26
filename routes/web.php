@@ -19,30 +19,17 @@ Route::any('info',function(){
     phpinfo();
 });
 
-<<<<<<< HEAD
-// 测试方法
-=======
 // 测试
->>>>>>> store
 Route::any('test/hello','Test\TestController@test');
 Route::any('test/redis1','Test\TestController@redis1');
 Route::any('test/guzzle1','Test\TestController@guzzle1');
 Route::any('test/xml','Test\TestController@xmlTest');
 Route::any('dev/redis/del','VoteController@delKey');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> store
 // 微商城
 Route::any('/','Index\IndexController@index');      // 商城首页
 Route::any('goods/detail','Goods\IndexController@detail');      // 商城首页
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> store
 // 微信开发
 Route::get('wechat','Wechat\WechatController@checkSignature');
 Route::post('wechat','Wechat\WechatController@receiv');         //接收微信推送事件
